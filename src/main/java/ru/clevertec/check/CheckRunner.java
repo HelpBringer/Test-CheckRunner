@@ -3,7 +3,7 @@ package main.java.ru.clevertec.check;
 
 //java -cp src ./src/main/java/ru/clevertec/check/CheckRunner.java id-quantity discountCard=xxxx balanceDebitCard=xxxx
 
-//initial commit for part 2
+
 public class CheckRunner {
 
     static String productsPath = "./src/main/resources/products.csv";
