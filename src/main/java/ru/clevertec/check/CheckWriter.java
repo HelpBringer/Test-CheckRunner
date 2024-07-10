@@ -13,17 +13,22 @@ import java.util.List;
 
 public class CheckWriter  {
 
-    final File file = new File("result.csv");
+    File file;
     final String TIME_HEADER = "Date;Time";
     final String DESCRIPTION_HEADER = "QTY;DESCRIPTION;PRICE;DISCOUNT;TOTAL";
     final String TOTAL_HEADER = "TOTAL PRICE;TOTAL DISCOUNT;TOTAL WITH DISCOUNT";
     final String DISCOUNT_HEADER = "DISCOUNT CARD;DISCOUNT PERCENTAGE";
+    final String DECIMAL_FORMAT = "#0.00$";
 
     final String DATE_FORMAT ="dd.MM.yyyy";
     final String TIME_FORMAT = "HH:mm:ss";
 
 
     final String DEFAULT_SEPARATOR = ";";
+
+    public CheckWriter(String pathToSave){
+        this.file = new File(pathToSave);
+    }
 
     public String convertToCsvFormat(String[] line) {
         return String.join(DEFAULT_SEPARATOR, line);
@@ -121,15 +126,15 @@ public class CheckWriter  {
     public void writeTotal(BufferedWriter bufferedWriter, Double totalPrice, Double totalDiscount) throws IOException {
         bufferedWriter.write(TOTAL_HEADER);
         bufferedWriter.newLine();
-        bufferedWriter.write(new DecimalFormat("#0.00$").format(totalPrice)+DEFAULT_SEPARATOR
-                +new DecimalFormat("#0.00$").format(totalDiscount)+DEFAULT_SEPARATOR
-                +new DecimalFormat("#0.00$").format(totalPrice-totalDiscount));
+        bufferedWriter.write(new DecimalFormat(DECIMAL_FORMAT).format(totalPrice)+DEFAULT_SEPARATOR
+                +new DecimalFormat(DECIMAL_FORMAT).format(totalDiscount)+DEFAULT_SEPARATOR
+                +new DecimalFormat(DECIMAL_FORMAT).format(totalPrice-totalDiscount));
 
 
         System.out.println(TOTAL_HEADER);
-        System.out.println(new DecimalFormat("#0.00$").format(totalPrice)+DEFAULT_SEPARATOR
-                +new DecimalFormat("#0.00$").format(totalDiscount)+DEFAULT_SEPARATOR
-                +new DecimalFormat("#0.00$").format(totalPrice-totalDiscount));
+        System.out.println(new DecimalFormat(DECIMAL_FORMAT).format(totalPrice)+DEFAULT_SEPARATOR
+                +new DecimalFormat(DECIMAL_FORMAT).format(totalDiscount)+DEFAULT_SEPARATOR
+                +new DecimalFormat(DECIMAL_FORMAT).format(totalPrice-totalDiscount));
     }
 
     public void writeException(String errorMessage){

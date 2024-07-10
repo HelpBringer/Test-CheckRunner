@@ -7,6 +7,11 @@ class RequestParser implements Parser {
     String idRegex="\\d+-\\d+";
     String cardRegex="discountCard=\\d{4}";
     String balanceRegex="balanceDebitCard=-?\\d+(.\\d+)?";
+
+    String pathRegex="pathToFile=.*";
+    String saveRegex="saveToFile=.*";
+    private String pathToFile="";
+    private String saveToFile="";
     String[] input;
     private Request request;
 
@@ -16,6 +21,14 @@ class RequestParser implements Parser {
 
     public Request getRequest() {
         return request;
+    }
+
+    public String getPathToFile() {
+        return pathToFile;
+    }
+
+    public String getSaveToFile() {
+        return saveToFile;
     }
 
     @Override
@@ -51,10 +64,25 @@ class RequestParser implements Parser {
                 i++;
                 continue;
             }
+            if(Pattern.matches(pathRegex, input[i])){
+                String[] path = input[i].split("=");
+                pathToFile = path[1];
+                i++;
+                continue;
+            }
+            if(Pattern.matches(saveRegex, input[i])){
+                String[] save = input[i].split("=");
+                saveToFile = save[1];
+                i++;
+                continue;
+            }
             i++;
 
         }
-        if(items.isEmpty()){
+        if(items.isEmpty() || saveToFile.isEmpty() || pathToFile.isEmpty()){
+            if(!saveToFile.isEmpty()){
+                throw new ServerException("BAD REQUEST", saveToFile);
+            }
             throw new ServerException("BAD REQUEST");
         }
         if(balanceDebitCard != null) {

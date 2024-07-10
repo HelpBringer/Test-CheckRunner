@@ -9,6 +9,7 @@ import java.util.*;
 public class ProductParser implements Parser{
 
     String inputPath;
+    //set of products from request
     Set positionsToCheck;
     private List<Position> positions;
 

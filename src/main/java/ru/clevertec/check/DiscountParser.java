@@ -43,6 +43,7 @@ public class DiscountParser implements Parser{
         } catch (IOException e) {
             throw new ServerException("INTERNAL SERVER ERROR");
         }
+        //if cardId was found copy its info
         percentage.ifPresent(this::setDiscountCard);
         if (percentage.isPresent()){
             this.discountCard.setCardId(searchCard);

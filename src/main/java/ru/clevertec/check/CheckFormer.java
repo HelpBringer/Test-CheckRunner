@@ -2,6 +2,7 @@ package main.java.ru.clevertec.check;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CheckFormer {
@@ -21,10 +22,18 @@ public class CheckFormer {
             checkDate = LocalDate.now();
             checkTime = LocalTime.now();
 
-            accountedPositions = positions.stream()
-                    .map( position -> new CashPosition(position, request.getItems().get(position.getId())))
-                    .toList();
-
+            //check if the quantity required meets the stored one
+            try {
+                List<CashPosition> list = new ArrayList<>();
+                for (Position position : positions) {
+                    CashPosition cashPosition = new CashPosition(position, request.getItems().get(position.getId()));
+                    list.add(cashPosition);
+                }
+                accountedPositions = list;
+            }
+            catch (ServerException serverException){
+                throw new ServerException(serverException.getMessage());
+            }
         }
         countTotal(accountedPositions, percentage/100);
 

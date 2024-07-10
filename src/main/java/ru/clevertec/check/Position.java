@@ -32,7 +32,8 @@ public class Position {
             this.discount = Boolean.parseBoolean(positionInfo[4]);
         }
         else{
-            //TODO: handle exception
+            System.out.println("Wrong format in products.csv");
+            System.out.println("INTERNAL SERVER ERROR");
         }
     }
 
